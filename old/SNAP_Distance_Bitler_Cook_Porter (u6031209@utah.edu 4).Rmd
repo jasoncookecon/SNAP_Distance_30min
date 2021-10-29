@@ -1,0 +1,1514 @@
+---
+title: "How Place and Poverty Intersect"
+subtitle: "Evidence about Geographic Barriers and Low SNAP Take-up"
+author: 
+  - .hi-green[Marianne Bitler], UC Davis & NBER
+  - .hi-green[Jason Cook], University of Utah
+  - .hi-green[Sonya R. Porter], US Census Bureau
+output:
+  xaringan::moon_reader:
+    css: ['default', 'metropolis', 'metropolis-fonts', 'my-css.css']
+    # self_contained: true
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+      
+
+---
+
+# Disclaimer
+
+> Any opinions and conclusions expressed herein are those of the authors and do not reflect the views of the U.S. Census Bureau. The statistical summaries reported in this paper have been cleared by the Census Bureau's Disclosure Review Board release authorization number CBDRB-FY21-CES014- 049. All results have been reviewed to ensure that no confidential information is disclosed.
+
+
+
+---
+
+```{r, load_refs, include=FALSE, cache=FALSE}
+library(RefManageR, here)
+BibOptions(check.entries = FALSE,
+         bib.style = "authoryear",
+         cite.style = "authoryear",
+         max.names = 2,
+         sorting = "nty",
+         style = "markdown",
+         hyperlink = FALSE,
+         dashed = TRUE)
+bib <- RefManageR::ReadBib("SNAP_WIC.bib", check = FALSE)
+```
+```{r initialize, include = F}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(grid, gridExtra,ggrepel, sp, foreign, dplyr, ggplot2, ggridges, tidyr, tidyverse, forcats, colortools, patchwork, plotly, dygraphs, knitr, kableExtra, formattable,datasets, reactable, htmltools, magick, timevis)
+
+library(ggplot2, grid, reactable)
+library(htmltools)
+library(gridExtra)
+library(ggridges)
+library(dplyr)
+library(tidyr, tidyverse)
+library(forcats)
+library(colortools)
+library(patchwork)
+library(ggrepel, plotly, dygraphs)
+library(knitr, kableExtra, formattable)
+library(datasets, readxl)
+crop <- function(im, left = 0, top = 0, right = 0, bottom = 0) {
+ d <- dim(im[[1]]); w <- d[2]; h <- d[3]
+ image_crop(im, glue::glue("{w-left-right}x{h-top-bottom}+{left}+{top}"))
+}
+```
+```{r xaringanExtra-scribble, echo=FALSE}
+xaringanExtra::use_xaringan_extra(c("tile_view", "scribble", "freezeframe"))
+```
+
+<!-- install.packages(c("pagedown", "xaringan")) -->
+<!-- pagedown::chrome_print("C:/Users/Jason/Box/SNAP/Distance/Presentation/SNAP_Distance_Bitler_Cook_Porter.html") -->
+
+# Motivation
+
+- The US is somewhat unique within advanced economies in the design of the US safety net. The system is very federalized with various levels of government running programs. 
+
+- People have to apply to a host of programs and rules are not harmonized across programs. So low take-up is more of an issue in the US than in many other places.
+
+- Thus, take-up of social programs is a hot topic in public economics yet understudied.
+
+---
+
+# Motivation
+
+## Theoretical literature 
+- Incomplete take up-sometimes caused by ordeals-could be efficient if programs can be designed to deter those who don’t need programs/target those who need them. .smallest[(.red[Ackerlof, 1978; Nichols & Zeckhauser, 1982; Besley & Coate, 1992; Kleven & Kopczuk, 2011])]
+
+- Robert Moffitt (.red[1983]) introduced the idea of stigma (either I am less likely to participate because it is bad to use benefits or because others might judge me). 
+
+`r RefManageR::NoCite(bib, c("Akerlof1978a","Besley1992a", "Moffitt1983b", "Nichols1982", "Kleven2011"))`
+
+
+---
+
+# Motivation
+
+- More recently, behavioral science has introduced the idea of limited bandwidth or scarcity which means more needy individuals could be deterred by complexity or ordeals or hassle costs and they might deter efficiency (e.g., .red[Bertrand, Mullainathan, & Shafir, 2004]).
+
+- Political science/public administration has introduced the idea of administrative burden (.red[Herd and Moynihan, 2019]). Some government actors choose to make it hard to get onto programs intentionally, surely some do because of limited capacity. Goal of former is to limit use, not maximize a social welfare function.
+
+`r RefManageR::NoCite(bib, c("Bertrand2004a","Herd2019"))`
+
+
+---
+
+# Motivation
+## Which model tells us how people act?
+
+- More recently, some empirical work looking at specific settings to understand take-up and who is marginal participant?
+
+- .hi[Neoclassical model:] People make decisions balancing costs and benefits in a utility maximizing framework. Incomplete take-up is a function of incomplete information, stigma (either concerns about whether you should participate or about how others should judge you), or transactions costs (it is more costly to enroll if you have to travel more, or the documentation or time costs are higher). 
+
+- .hi[Behavioral science  model:] Limited bandwidth or stress impairs people. Suggests incomplete take-up might be harmful or inefficient.
+
+---
+
+# Empirical Work
+
+- .hi[Daponte, Sanders, & Taylor (1999):] Asked people if they thought they were eligible for Food Stamps and found many were confused.
+
+- .hi[Bhargava and Manoli (2015):] RCT looking at how information, inducing stigma, inducing burden, etc. affect take-up of EITC among eligible non recipients in California.
+
+
+- .hi[Deshpande and Li (2019):] Closing SSA offices affects take-up, mixed findings about who is deterred. But caveat about costs.
+
+- .hi[Administrative burden.] Papers on online applications (UI - .red[Stange and Ebenstein, 2010]), other non economics papers in Political Science/Public Administration. Evidence during COVID about WIC participation being affected by pick up and enrollment rules (in person/not).
+
+- Big literature in other settings (retirement, filing taxes, information for students). 
+
+`r RefManageR::NoCite(bib, c("Daponte1999","Bhargava2015","Deshpande2019","Ebenstein2010"))`
+
+---
+#Empirical Work
+
+.hi[Finkelstein and Notowidigdo (2019):] RCT on Medicaid participants not on SNAP if eligible
+
+- How did information and application help affect take-up?
+
+- Add model for social welfare incorporating social costs and perceptions of costs of application (so looking at who takes up is not enough). 
+
+- Assistance $>$ information $>$ status quo.
+
+- Compliers are better off.
+
+- Worse targeting
+  
+- Quantify costs of assessing eligibility?
+  - Understanding expense of eligibility assessment would help determine size of wedge between social and private welfare
+  - Efforts to cut cost of eligibility would help shrink wedge
+  
+`r RefManageR::NoCite(bib, c("Finkelstein2019b"))`
+
+---
+
+# Our Contribution
+
+- We are looking at a setting where multiple actors are relevant. This includes stores participating in programs and state offices where people sign up for SNAP. Most of the literature has looked at one of these in isolation with limited focus on private actors. (.smallest[.red[Handbury & Moshary, 2021; Beatty, Bitler, and van Der Werf, 2021; Rossin-Slater, 2013; Meckel, 2020; Ambrozek, 2021]]).
+
+- We have linked Census data on where residential location to comprehensive administrative data on program take-up by location. We link this to data on the relevant agents who affect take-up (i.e., SNAP offices and SNAP-authorized retailers). So we can learn how program administration locations affect take-up and how availability of benefits at stores accepting them affects take-up and use. Couldn’t do as convincingly with most surveys due to limited sample sizes  and also data quality issues. Also have spending amounts which are rarely in survey data.
+
+`r RefManageR::NoCite(bib, c("Handbury2021","Rossin-Slater2013","Meckel2020b"))`
+
+---
+# Our Contribution
+
+- We can look at the population within states in our data and don’t have to focus samples with limited generalizability (previous RCT literature).
+
+- We have rich administrative data on other programs and mobility.
+
+- We have samples which permit us to explore staggered adoption designs.
+
+- This is a first stage for work to come, on outcomes.
+
+---
+# Exogeneity of our Variation
+
+- Why is it exogenous where stores and SNAP offices open and close?
+
+- Plausible that when and where to select may be a function of general neighborhood characteristics
+  - However, we look at households extremely close to these locations (<1 mile)
+  - Unlikely to target neighborhood characteristics in close vicinity
+
+- We have shown evidence about how each of these doesn’t affect participation in other programs as a placebo and how more people with various characteristics aren’t coming into locations where these changes occur.
+
+- We also plan to use data on Dun & Bradstreet firms and the locations of SNAP offices/WIC clinics/ and stores to see that openings and closings are not affected by aggregate trends within locations in stores.
+
+---
+class: inverse, middle
+
+# Data
+---
+
+# Data
+
+``` {r, data, echo=F, include=F}
+data <- data.frame(
+  id      = 1:17,
+  state = c("AZ"  ,"CO"  , "HI" , "ID" , "IL" , "IN" , "KY" , "MD" , "MI" , "MS" , "ND" , "NJ" , "NY" , "OR" , "TN" , "UT" , "VA"),
+  data_start   = c("'09","'12","'13","'10","'08","'04","'14","'06","'10","'10","'04","'06","'13","'09","'04","'12","'09"),
+  data_end     = c("'18","'13","'18","'18","'16","'18","'18","'16","'16","'18","'18","'18","'18","'18","'18","'18","'13")
+)
+
+data_long <- data %>% pivot_longer(cols = starts_with("data_"),
+                        names_to = "cat",
+                        names_prefix = "data_"
+)  %>% arrange(desc(state), value)
+
+theme_set(theme_bw())
+
+
+
+factor_var <- factor(data_long$state, 
+                     order = TRUE,
+                     levels=c("VA","UT","TN","OR","NY","NJ","ND","MS","MI","MD","KY","IN","IL","ID","HI","CO","AZ"))
+
+data_long <- data_long %>%
+                mutate(state = factor_var)
+
+data_long %>% 
+  ggplot(aes(x= value, y= state)) +
+  geom_line(aes(group = id),color="grey")+
+  geom_point(aes(color=cat), size=3, show.legend = FALSE) +
+  labs(y="")+ labs(x="Year")+ labs(title="SNAP Admin Data")
+  theme_classic(24)+
+  scale_color_brewer(palette="Accent", direction=-1)
+
+ggsave(
+  "SNAP_data.png",
+  path = 'C:/Users/Jason/Box/SNAP/Distance/Presentation/figs/',
+  width = 14,height = 18.5,units = c("cm")
+)
+```
+
+.pull-left[
+- State SNAP Administrative Data
+
+- Master Address File
+
+- MAFARF
+
+- HUD PICS/TRACS Administrative Data
+
+- ACS
+
+- HHS TANF Administrative Data
+
+- Collected info on 243 SNAP office closings and 336 openings
+]
+.pull-right[
+ <!-- - **AZ** ('09-'18), **CO** ('12,'13), **HI** ('13-'18), **ID** ('10-'18), **IL** ('08-'16), **IN** ('04-'18) **KY** ('14-'18), **MD** ('09-'16), **MI** ('10-'16), **MS** ('10-'18), **ND** ('04-'18), **NJ** ('06-'18), **NY** ('13-'18), **OR** ('09-'18), **TN** ('04-'18), **UT** ('12-'18), **VA** ('09-'13) -->
+.center[![:scale 100%](figs/SNAP_data.png)]
+]
+---
+class: inverse, middle
+
+# Measuring Access to SNAP Office
+---
+class: black-slide
+
+.center[
+```{r out.width = '90%', echo = F}
+"figs/chicago_all.png" %>%
+ image_read() %>%
+ crop(bottom = 200, top = 0)
+```
+]
+.caption[
+**Data Source:** *SNAP-Authorized Stores* - USDA's Store Tracking and Redemption System (STARS); *SNAP Offices* - Manually collected by authors.
+]
+- Plots SNAP-authorized store (dots) in 1 mile of SNAP Offices (diamonds)
+- Dot color matches that of the closest SNAP Office
+- We perform similar exercise with Census data, but for SNAP cases
+
+---
+class: black-slide
+
+.center[
+```{r out.width = '90%', echo = F}
+"figs/chicago_nostreet.png" %>%
+ image_read() %>%
+ crop(bottom = 200, top = 0)
+```
+]
+.caption[
+**Data Source:** *SNAP-Authorized Stores* - USDA's Store Tracking and Redemption System (STARS); *SNAP Offices* - Manually collected by authors.
+]
+
+- For overlap, cases assigned to closest office (.hi["No Overlap"])
+- Show results with overlap for robustness
+
+---
+class: black-slide
+
+.center[
+```{r out.width = '90%', echo = F}
+"figs/chicago_nostreet.png" %>%
+ image_read() %>%
+ crop(bottom = 200, top = 0)
+```
+]
+.caption[
+**Data Source:** *SNAP-Authorized Stores* - USDA's Store Tracking and Redemption System (STARS); *SNAP Offices* - Manually collected by authors.
+]
+ 
+- Within a mile, .hi[0.12] of cases overlap in .hi[rural] counties
+- Within a mile, .hi[0.28] of cases overlap in .hi[urban] counties
+
+---
+class: black-slide
+
+.center[
+```{r out.width = '90%', echo = F}
+"figs/chicago_nostreet.png" %>%
+ image_read() %>%
+ crop(bottom = 200, top = 0)
+```
+]
+.caption[
+**Data Source:** *SNAP-Authorized Stores* - USDA's Store Tracking and Redemption System (STARS); *SNAP Offices* - Manually collected by authors.
+]
+ 
+- We explore short distance of 1 mile
+- Explore longer distance of $(1,10]$ miles for rural and $(1,4]$ for urban
+- Selected at .25 and .75 percentiles of the distance distribution
+
+---
+class: inverse, middle
+
+# Share affected by Openings/Closings
+
+---
+# Share affected by Openings/Closings
+
+
+```{r , include = F, echo=F}
+
+#Plot shares of SNAP cases near offices and affected by closures
+
+var <- c(rep("Opening & Closing", 4), 
+         rep("Closing" , 4),
+         rep("Opening" , 4),
+         rep("Any" , 4))
+
+factor_var <- factor(var, 
+                     order = TRUE,
+                     levels =c('Opening & Closing',
+                               'Closing',
+                               'Opening',
+                               'Any'))
+condition <- rep(c("Urban Counties: 1-4 Miles" ,
+                   "Urban Counties: 0-1 Miles" ,
+                   "Rural Counties: 1-10 Miles" ,
+                   "Rural Counties: 0-1 Miles") , 4)
+factor_condition <- factor(condition, 
+                           order = TRUE,
+                           levels =c('Urban Counties: 1-4 Miles',
+                                     'Urban Counties: 0-1 Miles',
+                                     'Rural Counties: 1-10 Miles',
+                                     'Rural Counties: 0-1 Miles'))
+#Coordflip reverses everything, so input the right way and flip it
+value <- rev(c(
+                0.155,.665,.2213,.5620, #Any
+                0.025,.073,.0184,.0642, #Open
+                0.028,.087,.0343,.0854, #Closing
+                0.003,.010,.0013,.0036 #Open & Closing
+               )
+             ) 
+data <- data.frame(factor_var,factor_condition,value) 
+
+avg_share <- ggplot(data, aes(fill=factor_condition, y=value, x=factor_var)) + 
+  geom_bar(position="dodge", stat="identity") + 
+  scale_fill_manual("legend", values = c("Rural Counties: 0-1 Miles" = "#C72100",
+                                         "Rural Counties: 1-10 Miles" = "#FCC19F",
+                                         "Urban Counties: 0-1 Miles" = "#07218A",
+                                         "Urban Counties: 1-4 Miles" = "#94A5E7"),
+                    breaks = c("Rural Counties: 0-1 Miles","Rural Counties: 1-10 Miles","Urban Counties: 0-1 Miles","Urban Counties: 1-4 Miles")) +
+  coord_flip() +
+  scale_y_continuous(name = 'Share')  +
+  theme(axis.title.y=element_blank(), legend.title = element_blank(),
+        plot.title = element_text(size = 15, face = "bold"),
+        axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold")
+  )
+
+avg_share
+ggsave(
+  "avg_share.png",
+  path = 'C:/Users/Jason/Box/SNAP/Distance/Presentation/figs/',
+  width = 18,height = 7.5,units = c("cm")
+)
+```
+.center[![:scale 100%](figs/avg_share.png)].caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+- Of the 27,540,000 rural cases we observe:
+  - 695,000 live < 1 mile of opening office (781,000 for closing office)
+- Of the 24,590,000 urban cases we observe:
+  - 452,000 live < 1 mile of opening office (843,000 for closing office)
+---
+
+# Case Characteristics by Office Type
+
+```{r , include = F, echo=F}
+
+var <- c(rep("Gross Income", 6), 
+         rep("Benefit Amt" , 6),
+         rep("Age" , 6))
+
+factor_var <- factor(var, 
+                     order = TRUE,
+                     levels =c('Gross Income',
+                               'Benefit Amt',
+                               'Age'))
+condition <- rep(c('Urban: Any',
+                   'Urban, Closed: 0-1 Miles',
+                   'Urban, Open: 0-1 Miles',
+                   'Rural: Any',
+                   'Rural, Closed: 0-1 Miles',
+                   'Rural, Open: 0-1 Miles') , 3)
+factor_condition <- factor(condition, 
+                           order = TRUE,
+                           levels =c('Urban: Any',
+                                     'Urban, Closed: 0-1 Miles',
+                                     'Urban, Open: 0-1 Miles',
+                                     'Rural: Any',
+                                     'Rural, Closed: 0-1 Miles',
+                                     'Rural, Open: 0-1 Miles'))
+#Coordflip reverses everything, so input the right way and flip it
+value <- rev(c(
+                27,27,28,28,28,29, #Age
+                417,420,429,417,442,471, #Benefit Amt
+                924,855,1120,1068,937,1093 #Gross income
+                )) 
+data <- data.frame(factor_var,factor_condition,value) 
+
+char1 <- ggplot(data, aes(fill=factor_condition, y=value, x=factor_var)) + 
+  geom_bar(position="dodge", stat="identity") + 
+  scale_fill_manual("legend", values = c("Rural, Open: 0-1 Miles" = "#C72100",
+                                         "Rural, Closed: 0-1 Miles" = "#F36E26",
+                                         "Rural: Any" = "#FCC19F",
+                                         "Urban, Open: 0-1 Miles" = "#07218A",
+                                         "Urban, Closed: 0-1 Miles" = "#4463DF",
+                                         "Urban: Any" = "#94A5E7"),
+                    breaks = c("Rural, Open: 0-1 Miles","Rural, Closed: 0-1 Miles","Rural: Any","Urban, Open: 0-1 Miles","Urban, Closed: 0-1 Miles","Urban: Any")) +
+  coord_flip() +
+  scale_y_continuous(name = '')  +
+  theme(axis.title.y=element_blank(), legend.title = element_blank(),
+        plot.title = element_text(size = 15, face = "bold"),
+        axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold")
+  )
+
+char1
+ggsave(
+  "char1.png",
+  path = 'C:/Users/Jason/Box/SNAP/Distance/Presentation/figs/',
+  width = 18,height = 7.5,units = c("cm")
+)
+```
+.center[![:scale 100%](figs/char1.png)].caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+
+- .hi-red[Rural Counties]: Monthly income ~ $200 lower near **opening/closing** offices
+
+- .hi-blue[Urban Counties]: Monthly income ~ $100 lower near **closing** offices
+
+---
+
+# Case Characteristics by Office Type
+
+```{r , include = F, echo=F}
+
+#Plot shares of SNAP cases near offices and affected by closures
+
+var <- c(rep("White", 6), 
+         rep("Hispanic" , 6),
+         rep("Black" , 6),
+         rep("Over 65" , 6))
+
+factor_var <- factor(var, 
+                     order = TRUE,
+                     levels =c('White',
+                               'Hispanic',
+                               'Black',
+                               'Over 65'))
+condition <- rep(c('Urban: Any',
+                   'Urban, Closed: 0-1 Miles',
+                   'Urban, Open: 0-1 Miles',
+                   'Rural: Any',
+                   'Rural, Closed: 0-1 Miles',
+                   'Rural, Open: 0-1 Miles') , 4)
+factor_condition <- factor(condition, 
+                           order = TRUE,
+                           levels =c('Urban: Any',
+                                     'Urban, Closed: 0-1 Miles',
+                                     'Urban, Open: 0-1 Miles',
+                                     'Rural: Any',
+                                     'Rural, Closed: 0-1 Miles',
+                                     'Rural, Open: 0-1 Miles'))
+#Coordflip reverses everything, so input the right way and flip it
+value <- rev(c(
+                .04,.04,.05,.06,.05,.07, # Over 65
+                .16,.18,.16,.39,.53,.50, # Black
+                .11,.11,.14,.18,.16,.17, # Hispanic
+                .75,.76,.70,.46,.37,.36 # White
+               )) 
+data <- data.frame(factor_var,factor_condition,value) 
+
+char2 <- ggplot(data, aes(fill=factor_condition, y=value, x=factor_var)) + 
+  geom_bar(position="dodge", stat="identity") + 
+  scale_fill_manual("legend", values = c("Rural, Open: 0-1 Miles" = "#C72100",
+                                         "Rural, Closed: 0-1 Miles" = "#F36E26",
+                                         "Rural: Any" = "#FCC19F",
+                                         "Urban, Open: 0-1 Miles" = "#07218A",
+                                         "Urban, Closed: 0-1 Miles" = "#4463DF",
+                                         "Urban: Any" = "#94A5E7"),
+                    breaks = c("Rural, Open: 0-1 Miles","Rural, Closed: 0-1 Miles","Rural: Any","Urban, Open: 0-1 Miles","Urban, Closed: 0-1 Miles","Urban: Any")) +
+  coord_flip() +
+  scale_y_continuous(name = 'Share')  +
+  theme(axis.title.y=element_blank(), legend.title = element_blank(),
+        plot.title = element_text(size = 15, face = "bold"),
+        axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold")
+  )
+
+char2
+ggsave(
+  "char2.png",
+  path = 'C:/Users/Jason/Box/SNAP/Distance/Presentation/figs/',
+  width = 18,height = 7.5,units = c("cm")
+)
+```
+.center[![:scale 100%](figs/char2.png)].caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+
+- .hi-blue[Urban Counties]: Lower share of Black recipients near opening offices
+
+---
+
+# Case Characteristics by Office Type
+
+```{r , include = F, echo=F}
+
+#Plot shares of SNAP cases near offices and affected by closures
+
+var <- c(rep("Disabled", 6), 
+         rep("Child" , 6),
+         rep("Employed" , 6),
+         rep("ABAWD" , 6))
+
+factor_var <- factor(var, 
+                     order = TRUE,
+                     levels =c('Disabled',
+                               'Child',
+                               'Employed',
+                               'ABAWD'))
+condition <- rep(c('Urban: Any',
+                   'Urban, Closed: 0-1 Miles',
+                   'Urban, Open: 0-1 Miles',
+                   'Rural: Any',
+                   'Rural, Closed: 0-1 Miles',
+                   'Rural, Open: 0-1 Miles') , 4)
+factor_condition <- factor(condition, 
+                           order = TRUE,
+                           levels =c('Urban: Any',
+                                     'Urban, Closed: 0-1 Miles',
+                                     'Urban, Open: 0-1 Miles',
+                                     'Rural: Any',
+                                     'Rural, Closed: 0-1 Miles',
+                                     'Rural, Open: 0-1 Miles'))
+#Coordflip reverses everything, so input the right way and flip it
+value <- rev(c(
+                .22,.22,.23,.21,.25,.22, #ABAWD
+                .37,.35,.38,.37,.33,.34, #Employed
+                .41,.41,.40,.42,.40,.40, #Child
+                .11,.11,.11,.11,.12,.11 #Disabled
+            )) 
+data <- data.frame(factor_var,factor_condition,value) 
+
+char3 <- ggplot(data, aes(fill=factor_condition, y=value, x=factor_var)) + 
+  geom_bar(position="dodge", stat="identity") + 
+  scale_fill_manual("legend", values = c("Rural, Open: 0-1 Miles" = "#C72100",
+                                         "Rural, Closed: 0-1 Miles" = "#F36E26",
+                                         "Rural: Any" = "#FCC19F",
+                                         "Urban, Open: 0-1 Miles" = "#07218A",
+                                         "Urban, Closed: 0-1 Miles" = "#4463DF",
+                                         "Urban: Any" = "#94A5E7"),
+                    breaks = c("Rural, Open: 0-1 Miles","Rural, Closed: 0-1 Miles","Rural: Any","Urban, Open: 0-1 Miles","Urban, Closed: 0-1 Miles","Urban: Any")) +
+  coord_flip() +
+  scale_y_continuous(name = 'Share')  +
+  theme(axis.title.y=element_blank(), legend.title = element_blank(),
+        plot.title = element_text(size = 15, face = "bold"),
+        axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold")
+  )
+
+char3
+ggsave(
+  "char3.png",
+  path = 'C:/Users/Jason/Box/SNAP/Distance/Presentation/figs/',
+  width = 18,height = 7.5,units = c("cm")
+)
+```
+.center[![:scale 100%](figs/char3.png)].caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+
+- Characteristics relatively balanced across office type
+
+---
+class: inverse, middle
+
+# Empirical Design
+
+---
+# Empirical Design
+
+- Characteristics of SNAP recipients near SNAP offices relatively similar across types   
+  - **Caveat:** .hi-blue[Urban offices] tend to open in whiter neighborhoods and close in lower-income neighborhoods
+
+- We leverage panel design that hinges on whether timing of openings/closings is exogenous
+  - Specifically, we require that unobserved determinants of SNAP participation are not trending differentially for office types
+
+- Test this directly with event studies
+
+---
+
+# Empirical Design
+
+## Preferred Specification - TWFE
+
+$$y_{it} = \sum_{\tau}\beta_\tau 1(t-E_i = \tau) + \gamma_i + \theta_t + \epsilon_{it}$$
+- $i$ SNAP office
+- $t$ calendar year
+- $E_i$ year of opening/closing
+  
+---
+
+# Empirical Design
+
+$$y_{it} = \sum_{\tau}\beta_\tau 1(t-E_i = \tau)+  \gamma_i + \theta_t + \epsilon_{it}$$
+
+- Run on a panel balanced over main event times $\tau \in [-3,3]$
+
+- Coefficients estimated for all event times, but only report $\tau \in [-3,3]$
+
+- Cluster by SNAP office
+
+- Sample includes all SNAP offices and event time is only calculated for treated offices (i.e., opening or closing)
+
+- Test robustness to heterogeneous TE a la **de Chaisemartin and D'Haultfœuille (2020)**
+
+- Post-treatment event study coefficients averaged (standard errors - delta method)
+  
+
+---
+class: inverse, middle
+
+# Results
+
+
+---
+# Mean Distance to Office
+
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  cl_rur_meaoffdismaf1_twfenov_s_ES_noaxis = c("<1","TWFE","No","5.63*** (1.16)",".56"),
+  cl_urb_meaoffdismaf1_twfenov_s_ES_noaxis = c("<1","TWFE","No","1.97*** (0.70)",".63"),
+  op_rur_meaoffdismaf1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-5.35*** (1.03)","5.3"),
+  op_urb_meaoffdismaf1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-1.30*** (0.26)","1.6")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center"),
+    cl_rur_meaoffdismaf1_twfenov_s_ES_noaxis = colDef(name = "Rural Closing", align = "center"),
+    cl_urb_meaoffdismaf1_twfenov_s_ES_noaxis = colDef(name = "Urban Closing", align = "center"),
+    op_rur_meaoffdismaf1_twfenov_s_ES_noaxis  = colDef(name = "Rural Opening", align = "center"),
+    op_urb_meaoffdismaf1_twfenov_s_ES_noaxis = colDef(name = "Urban Opening", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years; Census Master Address File (MAFX).
+]
+---
+# \# of New SNAP Clients - Short Distance
+
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  cl_rur_nclnew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-3.17 (12.6)","224"),
+  cl_urb_nclnew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-88.0 (62.5)","1,020"),
+  op_rur_nclnew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","35.9*** (11.9)","153"),
+  op_urb_nclnew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","294.2*** (60.7)","466")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center"),
+    cl_rur_nclnew1_twfenov_s_ES_noaxis = colDef(name = "Rural Closing", align = "center"),
+    cl_urb_nclnew1_twfenov_s_ES_noaxis = colDef(name = "Urban Closing", align = "center"),
+    op_rur_nclnew1_twfenov_s_ES_noaxis  = colDef(name = "Rural Opening", align = "center"),
+    op_urb_nclnew1_twfenov_s_ES_noaxis = colDef(name = "Urban Opening", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+---
+# \# of New SNAP Clients - Long Distance
+
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  cl_rur_nclnew10_twfenov_s_ES_noaxis = c("(1,10]","TWFE","No","59.5 (48.2)","596"),
+  cl_urb_nclnew4_twfenov_s_ES_noaxis = c("(1,4]","TWFE","No","309.4** (153.6)","1,710"),
+  op_rur_nclnew10_twfenov_s_ES_noaxis = c("(1,10]","TWFE","No","170.4*** (47.4)","405"),
+  op_urb_nclnew4_twfenov_s_ES_noaxis = c("(1,4]","TWFE","No","595.1*** (133.6)","1,731")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center"),
+    cl_rur_nclnew10_twfenov_s_ES_noaxis = colDef(name = "Rural Closing", align = "center"),
+    cl_urb_nclnew4_twfenov_s_ES_noaxis = colDef(name = "Urban Closing", align = "center"),
+    op_rur_nclnew10_twfenov_s_ES_noaxis  = colDef(name = "Rural Opening", align = "center"),
+    op_urb_nclnew4_twfenov_s_ES_noaxis = colDef(name = "Urban Opening", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+---
+class: inverse, middle
+
+# Robustness
+
+---
+
+# Rural Closings - Robustness
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  cl_rur_nclnew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-3.2 (12.6)","223.6"),
+  cl_rur_nclnew1_deChnov_s_ES_noaxis = c("<1","deCh (AER)","No","13.9 (13.0)","204.5"),
+  cl_rur_nclnew1_twfeall_s_ES_noaxis = c("<1","TWFE","Yes","-10.1 (14.5)","295.4"),
+  cl_rur_ncanew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-6.6 (7.7)","121.6")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center", style = list(background = "rgba(0, 0, 0, 0.03)")),
+    cl_rur_nclnew1_twfenov_s_ES_noaxis = colDef(name = "New Clients", align = "center", style = list(background = "#ffe2de")),
+    cl_rur_nclnew1_deChnov_s_ES_noaxis = colDef(name = "New Clients", align = "center"),
+    cl_rur_nclnew1_twfeall_s_ES_noaxis  = colDef(name = "New Clients", align = "center"),
+    cl_rur_ncanew1_twfenov_s_ES_noaxis = colDef(name = "New Cases", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+---
+
+# Urban Closings - Robustness
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  cl_urb_nclnew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-88.0 (62.5)","1,020"),
+  cl_urb_nclnew1_deChnov_s_ES_noaxis = c("<1","deCh (AER)","No","84.2 (82.9)","856"),
+  cl_urb_nclnew1_twfeall_s_ES_noaxis = c("<1","TWFE","Yes","-101.9 (67.3)","1,250"),
+  cl_urb_ncanew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-78.7 (48.0)","651")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center", style = list(background = "rgba(0, 0, 0, 0.03)")),
+    cl_urb_nclnew1_twfenov_s_ES_noaxis = colDef(name = "New Clients", align = "center", style = list(background = "#ffe2de")),
+    cl_urb_nclnew1_deChnov_s_ES_noaxis = colDef(name = "New Clients", align = "center"),
+    cl_urb_nclnew1_twfeall_s_ES_noaxis  = colDef(name = "New Clients", align = "center"),
+    cl_urb_ncanew1_twfenov_s_ES_noaxis = colDef(name = "New Cases", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+---
+
+# Rural Openings - Robustness
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  op_rur_nclnew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","35.9*** (11.9)","153"),
+  op_rur_nclnew1_deChnov_s_ES_noaxis = c("<1","deCh (AER)","No","26.5*** (9.2)","144"),
+  op_rur_nclnew1_twfeall_s_ES_noaxis = c("<1","TWFE","Yes","26.7** (13.1)","235.2"),
+  op_rur_ncanew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","20.2*** (7.1)","121.6")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center", style = list(background = "rgba(0, 0, 0, 0.03)")),
+    op_rur_nclnew1_twfenov_s_ES_noaxis = colDef(name = "New Clients", align = "center", style = list(background = "#ffe2de")),
+    op_rur_nclnew1_deChnov_s_ES_noaxis = colDef(name = "New Clients", align = "center"),
+    op_rur_nclnew1_twfeall_s_ES_noaxis  = colDef(name = "New Clients", align = "center"),
+    op_rur_ncanew1_twfenov_s_ES_noaxis = colDef(name = "New Cases", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+---
+
+# Urban Openings - Robustness
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  op_urb_nclnew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","294.2*** (60.7)","466"),
+  op_urb_nclnew1_deChnov_s_ES_noaxis = c("<1","deCh (AER)","No","508.4 (317.3)","424.3"),
+  op_urb_nclnew1_twfeall_s_ES_noaxis = c("<1","TWFE","Yes","281.8*** (74.1)","711.6"),
+  op_urb_ncanew1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-160.0*** (33.1)","241.6")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center", style = list(background = "rgba(0, 0, 0, 0.03)")),
+    op_urb_nclnew1_twfenov_s_ES_noaxis = colDef(name = "New Clients", align = "center", style = list(background = "#ffe2de")),
+    op_urb_nclnew1_deChnov_s_ES_noaxis = colDef(name = "New Clients", align = "center"),
+    op_urb_nclnew1_twfeall_s_ES_noaxis  = colDef(name = "New Clients", align = "center"),
+    op_urb_ncanew1_twfenov_s_ES_noaxis = colDef(name = "New Cases", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+---
+class: inverse, middle
+
+# Heterogeneity
+
+---
+# Closings
+
+```{r , include=F, echo = F}
+#Rural Closing
+val <- read.csv(file = 'temp/forest_plot_cl_rur.csv')
+
+var <- rev(c("All","Age 65+","Age <5","White","Black/Hispanic","Single Parent","Employed","ABAWD","Disabled","Max Benefits","<50% Ben.","1 Month Churn","3-4 Month Churn","No GI","0<GI<50% FPL","50<GI<100% FPL","100<GI<130% FPL","130<GI<185% FPL"))
+
+Label <- factor(var, 
+               order = TRUE,
+               levels =rev(c("All","Age 65+","Age <5","Black/Hispanic","White","Single Parent","Employed","ABAWD","Disabled","Max Benefits","<50% Ben.","1 Month Churn","3-4 Month Churn","No GI","0<GI<50% FPL","50<GI<100% FPL","100<GI<130% FPL","130<GI<185% FPL")))
+              
+data_rur_cl <- data.frame(Label,val)
+
+p_rur_cl <- ggplot(data=data_rur_cl, aes(y=Label, x=est, xmin=ci_l, xmax=ci_u))+ 
+      geom_point(color="Black", size=2)+ 
+      geom_errorbarh(height=.1)+ #adds the CIs
+labs(y = '', x="Average Over Post Periods") +
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=0, color="black", linetype="dashed", alpha=.5)+
+#thematic stuff
+ggtitle("Rural Closing")+
+theme_minimal()+
+theme(text=element_text(family="Times",size=12, color="black"))+
+theme(panel.spacing = unit(1, "lines"))+
+theme(plot.title = element_text(hjust = 0.5))
+
+#Urban Closing
+val <- read.csv(file = 'temp/forest_plot_cl_urb.csv')
+              
+data_urb_cl <- data.frame(Label,val)
+
+p_urb_cl <- ggplot(data=data_urb_cl, aes(y=Label, x=est, xmin=ci_l, xmax=ci_u))+ 
+      geom_point(color="Black", size=2)+ 
+      geom_errorbarh(height=.1)+ #adds the CIs
+labs(y = '', x="Average Over Post Periods") +
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=0, color="black", linetype="dashed", alpha=.5)+
+#thematic stuff
+ggtitle("Urban Closing")+
+theme_minimal()+
+theme(text=element_text(family="Times",size=12, color="black"))+
+theme(panel.spacing = unit(1, "lines"))+
+theme(plot.title = element_text(hjust = 0.5))
+
+p_rur_cl + p_urb_cl
+ggsave(
+  "heteroFX_cl.png",
+  path = 'figs/',
+  width = 24,height = 10,units = c("cm")
+)
+```
+
+.center[![:scale 100%](figs/heteroFX_cl.png)].caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+
+- Cases with no gross income fell the most
+
+- Elderly case increase is driven by mobility (not shown)
+
+---
+# Openings
+
+```{r , include=F, echo = F}
+#Rural Opening
+val <- read.csv(file = 'temp/forest_plot_op_rur.csv')
+
+var <- rev(c("All","Age 65+","Age <5","White","Black/Hispanic","Single Parent","Employed","ABAWD","Disabled","Max Benefits","<50% Ben.","1 Month Churn","3-4 Month Churn","No GI","0<GI<50% FPL","50<GI<100% FPL","100<GI<130% FPL","130<GI<185% FPL"))
+
+Label <- factor(var, 
+               order = TRUE,
+               levels =rev(c("All","Age 65+","Age <5","White","Black/Hispanic","Single Parent","Employed","ABAWD","Disabled","Max Benefits","<50% Ben.","1 Month Churn","3-4 Month Churn","No GI","0<GI<50% FPL","50<GI<100% FPL","100<GI<130% FPL","130<GI<185% FPL")))
+              
+data_rur_op <- data.frame(Label,val)
+
+p_rur_op <- ggplot(data=data_rur_op, aes(y=Label, x=est, xmin=ci_l, xmax=ci_u))+ 
+      geom_point(color="Black", size=2)+ 
+      geom_errorbarh(height=.1)+ #adds the CIs
+labs(y = '', x="Average Over Post Periods") +
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=0, color="black", linetype="dashed", alpha=.5)+
+#thematic stuff
+ggtitle("Rural Opening")+
+theme_minimal()+
+theme(text=element_text(family="Times",size=12, color="black"))+
+theme(panel.spacing = unit(1, "lines"))+
+theme(plot.title = element_text(hjust = 0.5))
+
+#Urban Opening
+val <- read.csv(file = 'temp/forest_plot_op_urb.csv')
+              
+data_urb_op <- data.frame(Label,val)
+
+p_urb_op <- ggplot(data=data_urb_op, aes(y=Label, x=est, xmin=ci_l, xmax=ci_u))+ 
+      geom_point(color="Black", size=2)+ 
+      geom_errorbarh(height=.1)+ #adds the CIs
+labs(y = '', x="Average Over Post Periods") +
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=0, color="black", linetype="dashed", alpha=.5)+
+#thematic stuff
+ggtitle("Urban Opening")+
+theme_minimal()+
+theme(text=element_text(family="Times",size=12, color="black"))+
+theme(panel.spacing = unit(1, "lines"))+
+theme(plot.title = element_text(hjust = 0.5))
+
+p_rur_op + p_urb_op
+ggsave(
+  "heteroFX_op.png",
+  path = 'figs/',
+  width = 24,height = 10,units = c("cm")
+)
+```
+
+.center[![:scale 100%](figs/heteroFX_op.png)].caption[
+**Data Source:** SNAP Administrative Data - various states and years.
+]
+
+- Openings generate increases in program participation across many subgroups
+
+---
+class: inverse, middle
+
+# Miscellaneous Outcomes
+
+---
+
+# Rural Closing - Misc. Outcomes
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  cl_rur_npubhoucli1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-1.32 (2.54)","75.8"),
+  cl_rur_nsec8voucli1_twfenov_s_ES_noaxis = c("<1","TWFE","No","4.76 (5.19)","128"),
+  cl_rur_nsnaoff1_twfeall_s_ES_noaxis = c("<1","TWFE","No","0.34*** (.053)","0.05"),
+  cl_rur_nsnasto1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-0.02 (0.14)","2.6")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center"),
+    cl_rur_npubhoucli1_twfenov_s_ES_noaxis = colDef(name = "Public Housing Clients", align = "center"),
+    cl_rur_nsec8voucli1_twfenov_s_ES_noaxis = colDef(name = "Sec. 8 Clients", align = "center"),
+    cl_rur_nsnaoff1_twfeall_s_ES_noaxis  = colDef(name = "SNAP Offices", align = "center"),
+    cl_rur_nsnasto1_twfenov_s_ES_noaxis = colDef(name = "SNAP Stores", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years; HUD PICS/TRACS Administrative Data; USDA's Store Tracking and Redemption System (STARS).
+]
+
+---
+
+# Urban Closing - Misc. Outcomes
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  cl_urb_npubhoucli1_twfenov_s_ES_noaxis = c("<1","TWFE","No","28.9** (12.2)","132"),
+  cl_urb_nsec8voucli1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-36.3 (36.7)","382"),
+  cl_urb_nsnaoff1_twfeall_s_ES_noaxis = c("<1","TWFE","No","0.17* (0.10)","0.07"),
+  cl_urb_nsnasto1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-0.50 (0.60)","10.5")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center"),
+    cl_urb_npubhoucli1_twfenov_s_ES_noaxis = colDef(name = "Public Housing Clients", align = "center"),
+    cl_urb_nsec8voucli1_twfenov_s_ES_noaxis = colDef(name = "Sec. 8 Clients", align = "center"),
+    cl_urb_nsnaoff1_twfeall_s_ES_noaxis  = colDef(name = "SNAP Offices", align = "center"),
+    cl_urb_nsnasto1_twfenov_s_ES_noaxis = colDef(name = "SNAP Stores", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years; HUD PICS/TRACS Administrative Data; USDA's Store Tracking and Redemption System (STARS).
+]
+
+---
+
+# Rural Opening - Misc. Outcomes
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  op_rur_npubhoucli1_twfenov_s_ES_noaxis = c("<1","TWFE","No","1.28 (2.17)","21.3"),
+  op_rur_nsec8voucli1_twfenov_s_ES_noaxis = c("<1","TWFE","No","1.65 (3.50)","91.3"),
+  op_rur_nsnaoff1_twfeall_s_ES_noaxis = c("<1","TWFE","No","-.35*** (0.06)","0.42"),
+  op_rur_nsnasto1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-0.08 (0.16)","2.1")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center"),
+    op_rur_npubhoucli1_twfenov_s_ES_noaxis = colDef(name = "Public Housing Clients", align = "center"),
+    op_rur_nsec8voucli1_twfenov_s_ES_noaxis = colDef(name = "Sec. 8 Clients", align = "center"),
+    op_rur_nsnaoff1_twfeall_s_ES_noaxis  = colDef(name = "SNAP Offices", align = "center"),
+    op_rur_nsnasto1_twfenov_s_ES_noaxis = colDef(name = "SNAP Stores", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years; HUD PICS/TRACS Administrative Data; USDA's Store Tracking and Redemption System (STARS).
+]
+
+---
+
+# Urban Opening - Misc. Outcomes
+```{r , include=T, echo = F}
+library(htmltools)
+data <- data.frame(
+  Label =c("Distance","Model","Overlap","Avg. Estimate","Baseline Y"),
+  op_urb_npubhoucli1_twfenov_s_ES_noaxis = c("<1","TWFE","No","28.2* (14.6)","75.4"),
+  op_urb_nsec8voucli1_twfenov_s_ES_noaxis = c("<1","TWFE","No","35.6 (23.7)","227.5"),
+  op_urb_nsnaoff1_twfeall_s_ES_noaxis = c("<1","TWFE","No","-0.18 (0.12)","0.46"),
+  op_urb_nsnasto1_twfenov_s_ES_noaxis = c("<1","TWFE","No","-0.05 (0.66)","6.8")
+)
+
+reactable(data, 
+  #Default attributes applied to all columns
+  defaultColDef = colDef(header = function(value) 
+    gsub(".", " ", value, fixed = TRUE),
+    cell = function(value) format(value, nsmall = 1),
+    #horizontal alignment
+    align = "center",
+    minWidth = 160,
+    headerStyle = list(background = "rgba(0, 0, 0, 0.03)"),
+    #verticle alignment
+    vAlign = "center", 
+    headerVAlign = "bottom",
+    #Picture in footer matches the name of the column variable
+    footer = function(value, name) {
+      if (is.numeric(value) || name=="Label") return()
+      image <- img(src = sprintf("figs/%s.png", name), height = "105px")
+      tagList(
+        div(style = list(display = "inline-block", width = "140px"), image)
+      )
+    }
+  ),
+  #Define Column-specific attributes
+  columns = list(
+    Label = colDef(name = "", align = "center"),
+    op_urb_npubhoucli1_twfenov_s_ES_noaxis = colDef(name = "Public Housing Clients", align = "center"),
+    op_urb_nsec8voucli1_twfenov_s_ES_noaxis = colDef(name = "Sec. 8 Clients", align = "center"),
+    op_urb_nsnaoff1_twfeall_s_ES_noaxis  = colDef(name = "SNAP Offices", align = "center"),
+    op_urb_nsnasto1_twfenov_s_ES_noaxis = colDef(name = "SNAP Stores", align = "center")
+  ),
+  #Misc Table Options
+  bordered = TRUE,
+  highlight = TRUE,
+  fullWidth = FALSE,
+  theme = reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif")
+  )
+)
+
+```
+.caption[
+**Data Source:** SNAP Administrative Data - various states and years; HUD PICS/TRACS Administrative Data; USDA's Store Tracking and Redemption System (STARS).
+]
+
+---
+# Conclusion
+
+- Access to SNAP offices meaningfully increases program participation
+
+- Particularly important for those families without income
+
+- Interesting because many states are fully online with active help phone lines
+
+- Face-to-face assistance may provide additional aid overcoming administrative burden?
+
+---
+# Next Steps
+
+- Qualitatively examine mechanisms for why office may matter
+
+- Similar analysis for distance to SNAP-authorized retailers and businesses more generally (D&B)
+
+- Robustness to population changes
+
+- Mobility outcomes
+
+- Use as IV to explore impact of SNAP on other outcomes
+
+---
+class: white-slide, center, middle
+
+.huge[**Thank you**]
+
+---
+count: false 
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib, start = 1, end = 4)
+```
+
+---
+count: false
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib, start = 5, end = 8)
+```
+---
+count: false
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib, start = 9, end = 12)
+```
+---
+count: false
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib, start = 13, end = 15)
+```

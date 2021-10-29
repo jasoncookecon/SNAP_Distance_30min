@@ -1,0 +1,254 @@
+---
+title: "How Place and Poverty Intersect"
+subtitle: "Evidence about Geographic Barriers and Low Nutrition Assistance Take-up"
+author: 
+  - .hi-green[Marianne Bitler], UC Davis & NBER
+  - .hi-green[Jason Cook], University of Utah
+  - .hi-green[Sonya R. Porter], US Census Bureau
+output:
+  xaringan::moon_reader:
+    css: ['default', 'metropolis', 'metropolis-fonts', 'my-css.css']
+    # self_contained: true
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+---
+# Disclaimer
+
+> The content is solely the responsibility of the authors and does not necessarily represent the official views of the USDA or the Census Bureau. Results have gone through Census disclosure review under the following release numbers: XX.
+
+---
+
+```{r, load_refs, include=FALSE, cache=FALSE}
+library(RefManageR)
+BibOptions(check.entries = FALSE,
+         bib.style = "authoryear",
+         cite.style = "authoryear",
+         max.names = 2,
+         sorting = "nty",
+         style = "markdown",
+         hyperlink = FALSE,
+         dashed = TRUE)
+bib <- RefManageR::ReadBib("SNAP_WIC.bib", check = FALSE)
+```
+```{r initialize, include = F}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(grid, gridExtra,ggrepel, sp, foreign, dplyr, ggplot2, ggridges, tidyr, tidyverse, forcats, colortools, patchwork, plotly, dygraphs, knitr, kableExtra, formattable,datasets, reactable)
+
+library(ggplot2, grid, reactable)
+library(gridExtra)
+library(ggridges)
+library(dplyr)
+library(tidyr, tidyverse)
+library(forcats)
+library(colortools)
+library(patchwork)
+library(ggrepel, plotly, dygraphs)
+library(knitr, kableExtra, formattable)
+library(datasets, readxl)
+```
+
+# Motivation
+
+- 
+
+
+---
+
+# Literature
+
+## Sparse literature relating SNAP to labor supply
+
+### .large[**Early Literature:**]
+
+- Structural Methods .red[`r Citep(bib, "Robert2004")`]
+
+--
+
+### .large[**More Recent Literature:**] 
+- County-level roll out of the Food Stamp program $\rightarrow$ modest negative labor supply effects for single mothers .red[`r Citep(bib, "Hoynes2012")`]
+  
+- SNAP expansions among immigrant populations reduce work hours .red[`r Citep(bib, "East2016")`]
+  
+- Small literature on natives is mixed (.red[Scholz, et al., 2009; Moffitt, 2016; Ben-Shalom, et al., 2011; Farkhad and Meyerhoefer, 2018])
+  
+`r RefManageR::NoCite(bib,c("Scholz2009", "Moffitt2016", "Ben-Shalom2011","Farkhad2018"))`
+  
+
+---
+
+# Data Quality
+
+
+- Much of prior research uses self-reported surveys on earnings and SNAP
+
+- Problematic because self-reported SNAP is under-reported in ways likely not innocuous .red[(Harris, 2019; Han, 2018a; Stacy, Scherpf, et al., 2016; Cuffey, Mykerezi, et al., 2015; Gray, Leive, et al., 2019; Stacy, Scherpf, et al., 2018)]
+
+`r RefManageR::NoCite(bib, c("Meyer2015a", "Meyer2007", "Meyer2018a", "Meyer2019", "Haider2008"))`
+
+- Further, to study SNAP benefit formula, need to know monthly income and detailed expenses (e.g., shelter costs) which are rarely measured
+
+
+---
+
+# This Paper
+  
+<font size=6>First assessment of whether kink in SNAP benefit formula distorts labor supply along intensive margin <sup>.red[**+**]</sup></font>
+
+.footnote[ .green[**+**] .red[**Intensive margin**] - how *much* people work as opposed to *whether* they work at all.]
+
+--
+
+- Uses novel, .green[**detailed administrative program data**] for Colorado and Oregon
+
+- .green[**Can observe net income and disregards**], e.g., dependent care and excess shelter cost
+
+- Accurate SNAP eligibility and benefit levels
+
+- First part of a larger project on SNAP and labor supply
+
+---
+
+# Contribution
+
+<font size=6>Fills gap in SNAP-labor-supply and bunching literatures</font>
+
+--
+
+## Bunching
+
+- Growing public finance literature revitalized by .red[`r Citep(bib, "Saez2010")`] studying adjustments to kinks/notches in budget set
+
+- Largely focused on taxes, and papers on means tested programs have focused on tax credits requiring work (see review by .red[`r Cite(bib,"Kleven2016")`]
+
+- No evidence of this systematic behavior for safety net programs
+
+
+---
+# Policy Implications
+
+- SNAP designed to reduce labor supply distortions with benefits that fade out as earned income $\uparrow$ `r RefManageR::NoCite(bib, "Oliveira2018")` .red[(Oliveira, Prell, et al., 2018)]
+  
+  - Whether there are distortions is an empirical question
+  
+- Important policy implications for SNAP and for work requirements in the safety net more broadly
+  - E.g., Time limits
+
+
+
+---
+class: inverse, middle
+
+# Understanding SNAP Benefit Formula
+
+---
+# Share affects by Openings/Closings
+
+
+```{r , include = T, echo=F, warning=F}
+
+#Plot shares of SNAP cases near offices and affected by closures
+
+var <- c(rep("Opening & Closing", 4), 
+         rep("Closing" , 4),
+         rep("Opening" , 4),
+         rep("Any" , 4))
+
+factor_var <- factor(var, 
+                     order = TRUE,
+                     levels =c('Opening & Closing',
+                               'Closing',
+                               'Opening',
+                               'Any'))
+condition <- rep(c("Urban Counties: 1-4 Miles" ,
+                   "Urban Counties: 0-1 Miles" ,
+                   "Rural Counties: 1-10 Miles" ,
+                   "Rural Counties: 0-1 Miles") , 4)
+factor_condition <- factor(condition, 
+                           order = TRUE,
+                           levels =c('Urban Counties: 1-4 Miles',
+                                     'Urban Counties: 0-1 Miles',
+                                     'Rural Counties: 1-10 Miles',
+                                     'Rural Counties: 0-1 Miles'))
+#Coordflip reverses everything, so input the right way and flip it
+value <- rev(c(.04, .09, NA, NA,
+               .02,.02,NA,NA,
+               .05, 0, .09, 0,
+               .74,.86,.74,.89)) 
+data <- data.frame(factor_var,factor_condition,value) 
+
+avg_share <- ggplot(data, aes(fill=factor_condition, y=value, x=factor_var)) + 
+  geom_bar(position="dodge", stat="identity") + 
+  scale_fill_manual("legend", values = c("Rural Counties: 0-1 Miles" = "#ADD8E6",
+                                         "Rural Counties: 1-10 Miles" = "#ADBCE6",
+                                         "Urban Counties: 0-1 Miles" = "#E6D8AD",
+                                         "Urban Counties: 1-4 Miles" = "#E6ADBC"),
+                    breaks = c("Rural Counties: 0-1 Miles","Rural Counties: 1-10 Miles","Urban Counties: 0-1 Miles","Urban Counties: 1-4 Miles")) +
+  coord_flip() +
+  scale_y_continuous(name = 'Share')  +
+  theme(axis.title.y=element_blank(), legend.title = element_blank(),
+        plot.title = element_text(size = 15, face = "bold"),
+        axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold")
+  )
+
+avg_share
+```
+---
+class: white-slide, center, middle
+
+.huge[**Thank you**]
+---
+count: false 
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib, start = 1, end = 4)
+```
+
+---
+count: false
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib, start = 5, end = 9)
+```
+---
+count: false
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib, start = 10, end = 14)
+```
+
+---
+count: false
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib, start = 15, end = 18)
+```
+
+---
+count: false
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib, start = 19, end = 22)
+```
+---
+count: false
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib, start = 23, end = 25)
+```
+
