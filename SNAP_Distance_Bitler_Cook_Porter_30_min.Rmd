@@ -7,7 +7,7 @@ author:
   - .hi-green[Sonya R. Porter], US Census Bureau
 output:
   xaringan::moon_reader:
-    css: ['default', 'metropolis', 'metropolis-fonts'] #, 'my-css.css'] #,'ninjutsu'
+    css: ['default', 'metropolis', 'metropolis-fonts', 'my-css.css'] #,'ninjutsu'
     # self_contained: true
     nature:
       highlightStyle: github
@@ -124,129 +124,62 @@ count: false
 # Literature
 
 ---
-# Finkelstein and Notowidigdo (2019)
+# Literature
 
-- Model for social welfare incorporates social costs and perceptions of costs of application (.red[looking at targeting is not enough]).
+Literature can be conceptualized as studying how different types of barriers impact .red[take-up] and .red[targeting].
 
-- Fit parameters with RCT on Medicaid participants not on SNAP.
-
-- Did information and application help affect take-up and targeting?
-
-
-
---
-
-- Assistance $>$ information $>$ status quo; Compliers are better off.
-
-- Worse targeting for all interventions.
---
-
-- Quantify costs of assessing eligibility?
-  - Understanding expense of eligibility assessment would help determine size of wedge between social and private welfare.
-  - Efforts to cut cost of eligibility would help shrink wedge.
-  - SNAP average administrative costs low relative to benefit amount.
-  
 `r RefManageR::NoCite(bib, c("Finkelstein2019b"))`
 
 ---
-# Literature
+# Information Barriers
 
-Remaining literature can be conceptualized as studying how different types of barriers impact .red[take-up] and .red[targeting].
----
-# Barriers Impact Take-Up
-## Information Barriers
+- SNAP-eligible people often don't realize eligibility (.smallest[.red[Bartlett et al., 2004]]); providing information .hi-green[increases take-up] (.smallest[.red[Daponte, Sanders, & Taylor, 1999; Finkelstein and Notowidigdo, 2019]]).
 
-- SNAP-eligible people often don't realize eligibility (.smallest[.red[Bartlett et al., 2004]]); providing information increases take-up (.smallest[.red[Daponte, Sanders, & Taylor, 1999; Finkelstein and Notowidigdo, 2019]]).
-
-- Informational interventions matter in some other contexts as well: **EITC** (.smallest[.red[Bhargava and Manoli, 2015]]) and **SSDI** (.smallest[.red[Armour, 2018]]), but not others: **FAFSA** (.smallest[.red[Bettinger et al., 2012]]).
+- Information mailers .hi-red[induce less-needy] households to enroll in SNAP (.smallest[.red[Finkelstein and Notowidigdo, 2019]]).
 
 ---
-# Barriers Impact Take-Up
 
-## Transaction Costs in SNAP
+# Transaction Costs 
 
-- Reducing transaction costs in **SNAP** increases take-up via: application help (.smallest[.red[Schanzenbach, 2001; Finkelstein and Notowidigdo, 2019]]), certification periods (.smallest[.red[Kabbani and Wilde, 2003]]), certification reporting requirements (.smallest[.red[Gray, 2018; Hanratty, 2006; Unrath, 2021]]).
+- Application help .hi-green[increases take-up] (.smallest[.red[Schanzenbach, 2001; Finkelstein and Notowidigdo, 2019]]), but .hi-red[reduces targeting] (.smallest[.red[Finkelstein and Notowidigdo, 2019]]).
 
-- Less time for **SNAP** recertification interviews leads to more churning (.smallest[.red[Homonoff and Somerville, 2021]])
+- Longer certification periods .hi-green[increase take-up] (.smallest[.red[Kabbani and Wilde, 2003]]) 
 
-- Switching to automated **SNAP** application process decreases take-up (.smallest[.red[Wu, 2021]])
+- Less time for recertification interviews $\rightarrow$ .hi-red[more churning] (.smallest[.red[Homonoff and Somerville, 2021]]).
 
----
-# Barriers Impact Take-Up
+- Simplified reporting requirements .hi-green[increase take-up] (.smallest[.red[Gray, 2018; Hanratty, 2006]]).
 
-## Transaction Costs in Other Programs
+- Certification rules .hi-red[reduce take-up], but .hi-green[improve targeting] (.smallest[.red[Unrath, 2021]]).
 
-- Learning costs with **WIC**, relative to SNAP, influenced by what stores carry (.smallest[.red[Barnes, 2021]]).
+- Automated application process .hi-red[decreases take-up], but .hi-green[improves targeting] (.smallest[.red[Wu, 2021]]).
 
-- **WIC** participation during COVID affected by pick up and enrollment rules (in person/not) (.smallest[.red[Barnes and Petry, 2021; Whaley and Anderson, 2021; Vasan, Kenyon, and Roberto, 2021]]).
-
-- Access to program offices matters:  **SSA** offices (.smallest[.red[Deshpande and Li, 2019]]) and **WIC** program offices/vendors (.smallest[.red[Rossin-Slater, 2013; Ambrozek, 2021]]).
-
-<!-- - Assistance in completing **FAFSA** (.smallest[.red[Bettinger et al., 2012]]) -->
-<!-- - Online **UI** applications (.smallest[.red[Stange and Ebenstein, 2010]]) -->
-`r RefManageR::NoCite(bib, c("Homonoff2020","Finkelstein2019b","Daponte1999","Bartlett2004","Bhargava2015","Armour2018","Bettinger2012","Schanzenbach2009","Kabbani2003b","Hanratty2006","Deshpande2019","Rossin-Slater2013","Ambrozek2021","Unrath2021a","Wu2021","Gray2018","Barnes2021","Barnes2021a","Whaley2021","Vasan2021"))`
-
----
-# Barriers Impact Targeting
-
-## Information Barriers
-- Complexity worsens targeting of low-income cases for EITC (.smallest[.red[Bhargava and Manoli, 2015]]).
-
-- Information mailers induce less-needy households to enroll in SNAP (.smallest[.red[Finkelstein and Notowidigdo, 2019]]).
-
----
-# Barriers Impact Targeting
-
-## Transaction Costs
-- Closing SSA offices had mixed impacts on who is deterred (.smallest.red[Deshpande and Li, 2019]).
-
-- SNAP application assistance reduces targeting across all dimensions (.smallest[.red[Finkelstein and Notowidigdo, 2019]]).
-
-- Automated application system reduces take-up, but it improves targeting efficiency for new recipients and worsens among recertifiers (.smallest[.red[Wu, 2021]]).
-
-- Recertification rules reduce take-up and lower retention, but improve targeting (.smallest[.red[Unrath, 2021]]).
 --
 
 
-To our knowledge, no documented **SNAP** interventions .hi-red[increase take-up] and .hi-red[improve targeting].
+No documented SNAP interventions .hi-green[increase take-up] & .hi-green[improve targeting].
 
-`r RefManageR::NoCite(bib, c("Daponte1999","Bhargava2015","Deshpande2019","Ebenstein2010"))`
+`r RefManageR::NoCite(bib, c("Daponte1999","Bhargava2015","Deshpande2019","Ebenstein2010","Homonoff2020","Finkelstein2019b","Daponte1999","Bartlett2004","Bhargava2015","Armour2018","Bettinger2012","Schanzenbach2009","Kabbani2003b","Hanratty2006","Deshpande2019","Rossin-Slater2013","Ambrozek2021","Unrath2021a","Wu2021","Gray2018","Barnes2021","Barnes2021a","Whaley2021","Vasan2021"))`
 
 
 ---
 
 # Our Contribution
 
-- First assessment of how access to in-person assistance via opening/closing SNAP offices and SNAP-authorized stores (.red[coming soon]) impacts participation and targeting.
+- First assessment of how access to in-person assistance via opening/closing SNAP offices and SNAP-authorized stores impacts participation and targeting.
 
-- Provide evidence that reducing transaction costs via access to SNAP offices .hi-red[increases participation] and .hi-red[improves targeting].
+- Provide evidence that reducing transaction costs via access to SNAP offices .hi-green[increases participation] and .hi-green[improves targeting].
 
-- Our setting includes multiple relevant actors: SNAP-authorized stores and program offices.
-  - Literature has looked at one of these in isolation with limited focus on private actors (.smallest[.red[Handbury & Moshary, 2021; Beatty, Bitler, and van Der Werf, 2021; Meckel, 2020]]).
-
-
-`r RefManageR::NoCite(bib, c("Handbury2021","Rossin-Slater2013","Meckel2020b"))`
-
----
-# Our Contribution
+--
 
 - Link Census data on .red[residential location] with .red[administrative SNAP data] and information on .purple[SNAP offices] and .purple[SNAP-authorized retailers].
 
 - Not possible to study this question with existing surveys due to limited sample sizes and data quality issues.
 
---
 
 - Study population within states and don’t have to focus samples with limited generalizability (previous RCT literature).
 
-- Rich administrative data on other programs and mobility.
 
---
-
-- Samples which permit us to explore .red[staggered adoption designs].
-
-- We establish a .red[first stage] for work to come on outcomes.
-
-
+`r RefManageR::NoCite(bib, c("Handbury2021","Rossin-Slater2013","Meckel2020b"))`
 
 ---
 class: inverse, middle
@@ -273,9 +206,6 @@ count: false
 - Some heterogeneity across states.
 
 - Many states have online application portals and hotlines.
-  - Most people still submit applications in person.
-
-- Most states have switched from face-to-face to phone interview.
 
 - Provide household information and records of income/assets.
 ]
@@ -399,14 +329,6 @@ count: false
 - In the case of overlap, we assign case to the closest office (i.e., .red["No Overlap"]).
   - Show robustness to counting cases multiple times if overlap
 
-- Perform similar exercise for any person with a Census PIK to use as denominator (.red[awaiting disclosure]).
-
---
-
-- Next, we illustrate method for counting cases within a ring of an office using data on SNAP offices and SNAP-authorized stores.
-
-  - Use SNAP-authorized stores for this example to avoid Census disclosure issues
-
 ---
 
 class: black-slide
@@ -469,10 +391,6 @@ class: black-slide
 ---
 # SNAP Offices
 
-## Overlap
-- Within a mile, .hi-red[12%] of cases overlap in .hi-red[rural] counties.
-
-- Within a mile, .hi-blue[28%] of cases overlap in .hi-blue[urban] counties.
 
 ## Distances
 - Most analyses focus on SNAP cases within **1 mile of the SNAP Office**.
@@ -849,15 +767,15 @@ $$y_{it} = \sum_{\tau, \tau\neq 1}\beta_\tau 1(t-E_i = \tau)+  \gamma_i + \theta
 # Empirical Design
 ## Exogeneity of our Variation
 
-- SNAP recipients .red[far away from offices] have  higher income and more likely to be White.
-  - $\Rightarrow$ Analysis only focuses on recipients in close vicinity of offices.
+- Analysis only focuses on recipients in close vicinity of offices.
   - Office changes unlikely to target neighborhood characteristics in such close vicinity.
+  
 - Characteristics of SNAP recipients .red[near offices] relatively similar across office types (i.e., opening/closing/any).
   - **Caveat:** Urban offices tend to open in whiter neighborhoods and close in lower-income neighborhoods.
+  
 --
 
 - Importantly, we leverage .red[timing] of changes.
-- Will use Dun & Bradstreet firms to check whether openings and closings affected by aggregate retail trends.
 
 ---
 class: inverse, middle
@@ -915,14 +833,14 @@ d %>%
 
 - .hi-blue[Urban Counties]: Open/closings change average distance by 1-2 miles.
 
-- Distances change enough to move from office being walkable to requiring transit to access.
+- **Key Takeaway:** Distances change enough to move from office being walkable to requiring transit to access.
 
 --
 
 Next, we explore impact of SNAP office closings and openings on total counts of new SNAP clients living within a mile radius.
 
 ---
-# \# of New SNAP Clients - Short Distance
+# \# of New SNAP Clients 
 ## Office Closings
 .smallest[]
 .pull-left[
@@ -959,7 +877,7 @@ d %>%
 
 ---
 
-# \# of New SNAP Clients - Short Distance
+# \# of New SNAP Clients
 ## Heterogeneity by Gross Income
 .pull-left[
 .center[
@@ -992,7 +910,7 @@ d %>%
 - Participation falls for clients with no gross income.
 
 ---
-# \# of New SNAP Clients - Short Distance
+# \# of New SNAP Clients
 ## Heterogeneity
 ```{r , include=F, echo = F}
 #Rural Closing
@@ -1049,58 +967,11 @@ ggsave(
 **Data Source:** SNAP Administrative Data - various states and years.
 ]
 
-- Cases with no gross income fell the most.
-- Elderly case increase is driven by mobility (.red[awaiting disclosure]).
-
-
----
-# \# of New SNAP Clients - Long Distance
-## Office Closings
-.smallest[]
-.pull-left[
-.center[ 
-
-```{r , include=T, echo = F}
-d<-data.frame(Type= c('Distance','Model','Avg. Estimate','Baseline Y','Event Study'), 
-               cl_rur = c("1-10",'TWFE',"59.5<br/>(48.2)","596",'
-![:scale 100%](figs/cl_rur_nclnew10_twfenov_s_ES.png)'),
-               cl_urb = c("1-4","TWFE","309.4**<br/>(153.6)","1,710",'
-![:scale 100%](figs/cl_urb_nclnew4_twfenov_s_ES.png)')
-)
-
-
-d %>%
-  kbl(booktabs = TRUE,col.names = c("","Closing<br/>Rural","Closing<br/>Urban"), escape = FALSE,
-      align=c("c", 'c','c'), position="center"
-  ) %>%
-  kable_paper(full_width = FALSE) %>%
-  kable_styling(full_width = FALSE, position="center") %>% 
-  row_spec(0, align = "c") %>%
-  column_spec(1, width = "5em") %>%
-  column_spec(2, width = "7em",background ="#FDDBC7") %>%
-  column_spec(3, width = "7em",background ="#D1E5F0") %>%
-  row_spec(5, background ="white")
-```
-
-]
-
-.caption[.center[
-**Data Source:** SNAP Administrative Data - various states and years.
-]]
-
-]
-.pull-right[
-- Persistent increase in caseloads.
-
-- Similarly driven by cases with some gross income (.red[awaiting disclosure]).
-
-- Currently working on testing robustness to population changes and short-distance office relocations.
-]
-
+- **Key Takeaway:** Cases with no gross income fell the most.
 
 ---
 
-# \# of New SNAP Clients - Short Distance
+# \# of New SNAP Clients
 ## Office Openings
 .smallest[]
 .pull-left[
@@ -1145,7 +1016,7 @@ d %>%
 
 ---
 
-# \# of New SNAP Clients - Short Distance
+# \# of New SNAP Clients
 ## Heterogeneity by Gross Income
 
 .pull-left[
@@ -1176,10 +1047,10 @@ d %>%
 
 - Biggest participation impacts for cases without gross income.
 
-- Evidence of .red[improved targeting].
+- .hi-green[Evidence of improved targeting].
 
 ---
-# \# of New SNAP Clients - Short Distance
+# \# of New SNAP Clients
 ## Heterogeneity
 ```{r , include=F, echo = F}
 #Rural Opening
@@ -1239,49 +1110,6 @@ ggsave(
 - Increases in program participation across many subgroups.
 
 
----
-# \# of New SNAP Clients - Long Distance
-## Office Openings
-.smallest[]
-.pull-left[
-```{r , include=T, echo = F}
-d<-data.frame(Type= c('Distance','Model','Avg. Estimate','Baseline Y','Event Study'), 
-               op_rur = c("1-10","TWFE","170.4***<br/>(47.4)","405",'
-![:scale 100%](figs/op_rur_nclnew10_twfenov_s_ES.png)'),
-               op_urb = c("1-4","TWFE","595.1***<br/>(133.6)","1,731",'
-![:scale 100%](figs/op_urb_nclnew4_twfenov_s_ES.png)')
-)
-
-
-d %>%
-  kbl(booktabs = TRUE,col.names = c("","Opening<br/>Rural","Opening<br/>Urban"), escape = FALSE,
-      align=c("c", 'c','c'), position="center"
-  ) %>%
-  kable_paper(full_width = FALSE) %>%
-  kable_styling(full_width = FALSE, position="center") %>% 
-  row_spec(0, align = "c") %>%
-  column_spec(1, width = "5em") %>%
-  column_spec(2, width = "7em",background ="#FDDBC7") %>%
-  column_spec(3, width = "7em",background ="#D1E5F0") %>%
-  row_spec(5, background ="white") 
-```
-
-.caption[.center[
-**Data Source:** SNAP Administrative Data - various states and years.
-]]
-
-]
-.pull-right[
-- Similar pattern as for 1 mile rings.
-
-- By **three years** after opening:
-
-  - .hi-red[Rural Counties]: 271 additional SNAP clients (.red[67% increase]).
-  
-  - .hi-blue[Urban Counties]: 768 additional SNAP clients (.blue[44% increase]).
-]
-
-
 
 
 ---
@@ -1291,11 +1119,10 @@ d %>%
 
 - These differences in access substantially impact participation rates (.red[particularly for cases without income]).
 
-- **Within 1 mile:**
 
-  - **Closing offices** experience an uptick in cases during the closing year. Possibly clearing out application queue. Subsequent modest declines in participation (.blue[urban counties]). 
+- **Closing offices** experience an uptick in cases during the closing year. Possibly clearing out application queue. Subsequent modest declines in participation (.blue[urban counties]). 
   
-  - **Opening offices** experience large persistent increases in participation.
+- **Opening offices** experience large persistent increases in participation.
 
 ---
 class: inverse, middle
@@ -1462,110 +1289,21 @@ d %>%
 **Data Source:** SNAP Administrative Data - various states and years.
 ]]
 
----
-class: inverse, middle
-count: false 
-
-# Further outcomes which provide context
-
----
-class: white-slide
-
-.pull-left[
-``` {r, echo=F}
-library(kableExtra)
-
-d<-data.frame(Type= c("Closing<br/>Rural","Closing<br/>Urban","Opening<br/>Rural","Opening<br/>Urban"), 
-               snoff = c('![:scale 100%](figs/cl_rur_nsnaoff1_twfeall_s_ES.png)',
-                          '![:scale 100%](figs/cl_urb_nsnaoff1_twfeall_s_ES.png)',
-                          '![:scale 100%](figs/op_rur_nsnaoff1_twfeall_s_ES.png)',
-                          '![:scale 100%](figs/op_urb_nsnaoff1_twfeall_s_ES.png)'),
-               snst = c('![:scale 100%](figs/cl_rur_nsnasto1_twfenov_s_ES.png)',
-                          '![:scale 100%](figs/cl_urb_nsnasto1_twfenov_s_ES.png)',
-                          '![:scale 100%](figs/op_rur_nsnasto1_twfenov_s_ES.png)',
-                          '![:scale 100%](figs/op_urb_nsnasto1_twfenov_s_ES.png)')
-)
-
-d %>%
-  kbl(booktabs = TRUE,col.names = c("","SNAP<br/>Offices","SNAP<br/>Stores"), escape = FALSE,
-      align=c("c", 'c','c'), position="center"
-  ) %>%
-  kable_paper(full_width = FALSE) %>%
-  kable_styling(full_width = FALSE, position="center") %>% 
-  row_spec(0, align = "c") %>%
-  column_spec(1, width = "4em") %>%
-  column_spec(2, width = "7em") %>%
-  column_spec(3, width = "7em") 
-
-```
-.caption[
-**Data Sources:** SNAP Admin - various states & years; HUD PICS/TRACS Admin; USDA's Store Tracking and Redemption System (STARS)
-]
-]
-.pull-right[
-- Count of SNAP offices within a mile of focal office increases for closings and decreases for openings.
-
-  - Result of offices relocating short distances.
-  
-  - Working on robustness to eliminating short-distance relocations.
-  
-- No clear pattern for SNAP-authorized stores.
-]
-
----
-class: white-slide
-
-.pull-left[
-``` {r, echo=F}
-library(kableExtra)
-
-d<-data.frame(Type= c("Closing<br/>Rural","Closing<br/>Urban","Opening<br/>Rural","Opening<br/>Urban"), 
-               sec8 = c('![:scale 100%](figs/cl_rur_nsec8voucli1_twfenov_s_ES.png)',
-                          '![:scale 100%](figs/cl_urb_nsec8voucli1_twfenov_s_ES.png)',
-                          '![:scale 100%](figs/op_rur_nsec8voucli1_twfenov_s_ES.png)',
-                          '![:scale 100%](figs/op_urb_nsec8voucli1_twfenov_s_ES.png)'),
-               pubh = c('![:scale 100%](figs/cl_rur_npubhoucli1_twfenov_s_ES.png)',
-                          '![:scale 100%](figs/cl_urb_npubhoucli1_twfenov_s_ES.png)',
-                          '![:scale 100%](figs/op_rur_npubhoucli1_twfenov_s_ES.png)',
-                          '![:scale 100%](figs/op_urb_npubhoucli1_twfenov_s_ES.png)')
-)
-
-d %>%
-  kbl(booktabs = TRUE,col.names = c("","Section 8","Public<br/>Housing"), escape = FALSE,
-      align=c("c", 'c','c'), position="center"
-  ) %>%
-  kable_paper(full_width = FALSE) %>%
-  kable_styling(full_width = FALSE, position="center") %>% 
-  row_spec(0, align = "c") %>%
-  column_spec(1, width = "4em") %>%
-  column_spec(2, width = "7em") %>%
-  column_spec(3, width = "7em") 
-```
-.caption[
-**Data Source:** SNAP Admin - various states & years; HUD PICS/TRACS Admin; USDA's Store Tracking and Redemption System (STARS)
-]
-]
-.pull-right[
-- Noisy increase in HUD program participation for SNAP office openings.
-
-- Recall that offices connect applicants to other programs, sometimes can even apply directly.
-]
-
 
 ---
 
 # Conclusion
 
-- Access to SNAP offices .hi-red[substantially increases program participation].
+- Access to SNAP offices .hi-green[substantially increases program participation].
 
-- Particularly important for families without income (i.e., .hi-red[improved targeting]).
+- Particularly important for families without income (i.e., .hi-green[improved targeting]).
 
 - Interesting because many states are fully online with active help phone lines.
 
-- Face-to-face assistance may provide additional aid overcoming transaction costs? (.smallest[.red[Wu, 2021]])
+- Face-to-face assistance may provide additional aid overcoming transaction costs (.smallest[.red[Wu, 2021]])
 
 - Policy implications to increase in-person assistance for applications.
-  - Similar to mobile WIC clinics?
+  - Similar to mobile WIC clinics
 
 ---
 # Next Steps
